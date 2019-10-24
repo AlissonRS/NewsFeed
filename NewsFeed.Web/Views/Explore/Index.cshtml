@@ -16,8 +16,8 @@
             <div class="card" style="width: 18rem;">
                 <div class="card-body" data-url="@Url.Action("Items", "Feeds", new { feedId = item.FeedId })">
                     <h4 class="card-title text-center">
-                        @item.Name 
-                        @if(item.IsSubscribedTo)
+                        @item.Name
+                        @if (item.IsSubscribedTo)
                         {
                             <span class="badge badge-success">Subscribed</span>
                         }
@@ -28,7 +28,7 @@
                 <div class="card-footer text-center">
                     @if (item.IsSubscribedTo)
                     {
-                        <a href="@Url.Action("Unsubscribe", "Feeds", new { feedId = item.FeedId, returnUrl = Url.Action("Index", "Explore") })" data-toggle="tooltip" title="Unsubscribe" class="card-link btn btn-outline-danger unsubscribe"><i class="fa fa-times"></i></a>
+                        <button data-url="@Url.Action("Unsubscribe", "Feeds", new { feedId = item.FeedId, returnUrl = Url.Action("Index", "Explore") })" data-toggle="tooltip" title="Unsubscribe" class="card-link btn btn-outline-danger unsubscribe"><i class="fa fa-times"></i></button>
                     }
                     else
                     {
@@ -43,6 +43,7 @@
 </div>
 
 @section Styles {
+    <link href="~/vendor/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
     <style>
         .subscribe i {
             color: red;
@@ -70,6 +71,7 @@
     </style>
 }
 @section Scripts {
+    <script src="~/vendor/sweetalert2/sweetalert2.all.min.js"></script>
     <script>
         $(function () {
             $('.card-body').mouseup(function (e) {
@@ -78,6 +80,27 @@
                     document.location = url;
                 else if (e.which === 2)
                     window.open(url, "_blank");
+            });
+
+            $('.unsubscribe').mouseup(function (e) {
+                var url = $(this).data('url');
+
+                swal({
+                    title: 'Are you sure?',
+                    text: "You can always re-subscribe later if you want...",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, unsubscribe!",
+                    cancelButtonText: "Cancel"
+                })
+                    .then(result => {
+                        if (result.value) {
+                            if (e.which === 1)
+                                document.location = url;
+                            else if (e.which === 2)
+                                window.open(url, "_blank");
+                        }
+                    });
             });
         })
     </script>
