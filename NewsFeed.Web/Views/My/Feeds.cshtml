@@ -1,0 +1,122 @@
+﻿@model NewsFeed.Web.ViewModels.My.MyFeedsViewModel
+
+@{
+    ViewBag.Title = "My Feed";
+}
+
+<div class="content-heading">
+    <div>
+        The Feeds you love
+    </div>
+</div>
+@if (Model.Feeds.Any())
+{
+    <div class="row">
+        @foreach (var item in Model.Feeds)
+        {
+            <div class="col-md-3">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body" data-url="@Url.Action("Items", "Feeds", new { feedId = item.FeedId })">
+                        <h3 class="card-title text-center">@item.Name</h3>
+                        <p class="card-text text-left">@item.Description</p>
+                        @*<hr />*@
+                    </div>
+                    <div class="card-footer text-center">
+                        <button data-url="@Url.Action("Unsubscribe", "Feeds", new { feedId = item.FeedId, returnUrl = Url.Action("Feeds", "My") })" data-toggle="tooltip" title="Unsubscribe" class="card-link btn btn-outline-danger unsubscribe"><i class="fa fa-times"></i></button>
+                        <a href="@Url.Action("Items", "Feeds", new { feedId = item.FeedId })" data-toggle="tooltip" title="View Items" class="card-link btn btn-outline-info search"><i class="fa fa-search"></i></a>
+                        <span data-toggle="tooltip" title="Subscribers" class="card-link"><i class="fa fa-user"></i>  @item.SubscribersCount</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="jumbotron">
+        <h1 class="display-4">No Feeds :(</h1>
+        <p class="lead">You can explore news feed <a href="@Url.Action("Index", "Explore")">here</a>, add them by clicking the <strong>Subscribe</strong> button and find them later here.</p>
+        <hr class="my-4">
+        <p>Or would you like to start reading some great articles?</p>
+        <a class="btn btn-primary btn-lg" href="@Url.Action("All", "Items")" role="button">See All Items</a>
+    </div>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.1.0/sweetalert2.min.css" />
+    @*<link href="~/vendor/sweetalert2/sweetalert2.min.css" rel="stylesheet" />*@
+    <style>
+        .unsubscribe i {
+            color: red;
+        }
+
+        .unsubscribe:hover i {
+            color: #fff;
+        }
+
+        .search i {
+            color: #23b7e5;
+        }
+
+        .search:hover i {
+            color: #fff;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .card-body:hover {
+            cursor: pointer;
+        }
+    </style>
+}
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.1.0/sweetalert2.all.min.js"></script>
+    @*<script src="~/vendor/sweetalert2/sweetalert2.all.min.js"></script>*@
+    <script>
+        $(function () {
+            $('.unsubscribe').mouseup(function (e) {
+                var url = $(this).data('url');
+
+                swal({
+                    title: 'Are you sure?',
+                    text: "You can always re-subscribe later if you want...",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, unsubscribe!",
+                    cancelButtonText: "Cancel"
+                })
+                    .then(result => {
+                        if (result.value) {
+                            if (e.which === 1)
+                                document.location = url;
+                            else if (e.which === 2)
+                                window.open(url, "_blank");
+                        }
+                    });
+
+
+                //swal.fire({
+                //    title: 'Are you sure?',
+                //    text: "You can re-subscribe later if you want",
+                //    type: 'warning',
+                //    showCancelButton: true,
+                //    confirmButtonColor: '#3085d6',
+                //    cancelButtonColor: '#d33',
+                //    confirmButtonText: 'Yes, unsubscribe!'
+                //}).then((result) => {
+                //    if (result.value) {
+                //        var url = $(this).data('url');
+                //        if (e.which === 1)
+                //            document.location = url;
+                //        else if (e.which === 2)
+                //            window.open(url, "_blank");
+                //    }
+                //})
+
+            });
+        })
+    </script>
+}
+

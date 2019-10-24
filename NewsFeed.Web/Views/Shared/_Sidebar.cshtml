@@ -1,0 +1,34 @@
+<!-- START Sidebar (left)-->
+<div class="aside-inner">
+    <nav class="sidebar" data-sidebar-anyclick-close="">
+        <!-- START sidebar nav-->
+        <ul class="sidebar-nav">
+            <!-- Iterates over all sidebar items-->
+            <li class="nav-heading">
+                <span>Main Navigation</span>
+            </li>
+            <li class="@Html.isActive(controller: "Explore")">
+                <a href="@Url.Action("Index", "Explore")" title="Explore News Feed">
+                    <em class="fa fa-search"></em>
+                    <span>Explore News Feed</span>
+                </a>
+            </li>
+            <li class="@Html.isActive(controller: "Items")">
+                <a href="@Url.Action("All", "Items")" title="All News Items">
+                    <em class="fa fa-cubes"></em>
+                    <span>All News Items</span>
+                </a>
+            </li>
+            <li class="@Html.isActive(controller: "My")">
+                <a href="@Url.Action("Feeds", "My")" title="My Feeds">
+                    <em class="fa fa-heart"></em>
+                    <span>My Feeds</span>
+                </a>
+            </li>
+        </ul>
+        <!-- END sidebar nav-->
+    </nav>
+</div>
+<!-- END Sidebar (left)-->
+
+

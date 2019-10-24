@@ -1,0 +1,69 @@
+﻿@model NewsFeed.Web.ViewModels.Feeds.FeedItemsViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="content-heading">
+    <div>
+        @Model.FeedName
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-12">
+
+        <div class="card card-default">
+            <div class="card-body">
+                @using (Html.BeginForm(FormMethod.Post, htmlAttributes: new { feedId = Model.FeedId }))
+                {
+                    @Html.HiddenFor(m => m.FeedId)
+                    @Html.HiddenFor(m => m.FeedName)
+                    
+                    <div class="form-row align-items-center">
+                        <div class="col-auto">
+                            @Html.LabelFor(model => model.Search, new { @class = "sr-only" })
+                            @Html.TextBoxFor(model => model.Search, new { @class = "form-control", placeholder = "Search here" })
+                            @Html.ValidationMessageFor(model => model.Search, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-success"><i class="fa fa-search"></i> Search</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var item in Model.Items)
+    {
+        <div class="col-12">
+            <div class="card card-default">
+                <div class="card-header">
+                    <h3>@item.Name</h3>
+                    <span>
+                        <i class="fa fa-calendar-alt"></i> @item.CreatedAt.ToShortDateString()
+                        <i class="fa fa-clock"></i> @item.CreatedAt.ToShortTimeString()
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="pb-3">
+                        @item.Description
+                    </p>
+                    <div>
+                        <span data-toggle="tooltip" title="Likes"><i class="fa fa-thumbs-up"></i> @item.LikesCount</span>
+                        <span data-toggle="tooltip" title="Comments"><i class="fa fa-comments pl-4"></i> @item.CommentsCount</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="#" data-toggle="tooltip" title="Read" class="card-link btn btn-primary"><i class="fa fa-book-reader"></i></a>
+                    <a href="#" data-toggle="tooltip" title="Share" class="card-link btn btn-primary"><i class="fa fa-share-alt"></i></a>
+                    <a href="#" data-toggle="tooltip" title="Bookmark" class="card-link btn btn-primary"><i class="fa fa-bookmark"></i></a>
+                </div>
+            </div>
+        </div>
+        }
+</div>

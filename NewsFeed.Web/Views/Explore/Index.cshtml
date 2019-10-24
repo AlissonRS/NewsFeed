@@ -1,0 +1,85 @@
+﻿@model NewsFeed.Web.ViewModels.Explore.ExploreViewModel
+
+@{
+    ViewBag.Title = "Explore News Feed";
+}
+
+<div class="content-heading">
+    <div>
+        Explore News Feed
+    </div>
+</div>
+<div class="row">
+    @foreach (var item in Model.Feeds)
+    {
+        <div class="col-md-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body" data-url="@Url.Action("Items", "Feeds", new { feedId = item.FeedId })">
+                    <h4 class="card-title text-center">
+                        @item.Name 
+                        @if(item.IsSubscribedTo)
+                        {
+                            <span class="badge badge-success">Subscribed</span>
+                        }
+                    </h4>
+                    <p class="card-text text-left">@item.Description</p>
+                    @*<hr />*@
+                </div>
+                <div class="card-footer text-center">
+                    @if (item.IsSubscribedTo)
+                    {
+                        <a href="@Url.Action("Unsubscribe", "Feeds", new { feedId = item.FeedId, returnUrl = Url.Action("Index", "Explore") })" data-toggle="tooltip" title="Unsubscribe" class="card-link btn btn-outline-danger unsubscribe"><i class="fa fa-times"></i></a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Subscribe", "Feeds", new { feedId = item.FeedId })" data-toggle="tooltip" title="Subscribe" class="card-link btn btn-outline-danger subscribe"><i class="fa fa-heart"></i></a>
+                    }
+                    <a href="@Url.Action("Items", "Feeds", new { feedId = item.FeedId })" data-toggle="tooltip" title="View Items" class="card-link btn btn-outline-info search"><i class="fa fa-search"></i></a>
+                    <span data-toggle="tooltip" title="Subscribers" class="card-link"><i class="fa fa-user"></i>  @item.SubscribersCount</span>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Styles {
+    <style>
+        .subscribe i {
+            color: red;
+        }
+
+        .subscribe:hover i {
+            color: #fff;
+        }
+
+        .search i {
+            color: #23b7e5;
+        }
+
+        .search:hover i {
+            color: #fff;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .card-body:hover {
+            cursor: pointer;
+        }
+    </style>
+}
+@section Scripts {
+    <script>
+        $(function () {
+            $('.card-body').mouseup(function (e) {
+                var url = $(this).data('url');
+                if (e.which === 1)
+                    document.location = url;
+                else if (e.which === 2)
+                    window.open(url, "_blank");
+            });
+        })
+    </script>
+}
+
