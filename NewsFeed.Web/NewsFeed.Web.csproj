@@ -21,7 +21,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\NewsFeed.Data\2 - NewsFeed.Data.csproj" />
+    <ProjectReference Include="..\NewsFeed.Data\NewsFeed.Data.csproj" />
   </ItemGroup>
 
 </Project>

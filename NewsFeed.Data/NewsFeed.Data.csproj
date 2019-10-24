@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NewsFeed.Core\3 - NewsFeed.Core.csproj" />
+    <ProjectReference Include="..\NewsFeed.Core\NewsFeed.Core.csproj" />
   </ItemGroup>
 
 </Project>
